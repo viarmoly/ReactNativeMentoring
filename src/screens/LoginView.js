@@ -4,6 +4,44 @@ import CustomInput from '../components/CustomInput';
 import AppStyles from '../config/styles';
 
 class LoginView extends Component{
+
+    state = {
+        signInFields:{
+            email: '',
+            password: ''
+        }
+    };
+
+    onStateChangeFieldHandler = (field, value) => {
+        const { signInFields } = this.state;
+        const { state } = this;
+        signInFields[field] = value;
+        this.setState({
+            ...state,
+            signInFields
+        });
+    };
+
+     checkForm = () => {
+         const {email, password} = this.state.signInFields;
+
+         if (email && password) {
+         fetch("http://34.73.95.65/account/login?rt=a/account/login", {
+             method: 'POST',
+             headers: {
+                 Accept: 'application/json',
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+                 loginname: email,
+                 password: password
+             })
+         })
+             .then(response => response.json())
+             .then(json => console.log(json)).catch(e => console.log(e))
+     }
+    };
+
     render() {
         const image = { uri: "https://webgradients.com/public/webgradients_png/008%20Rainy%20Ashville.png" };
         return(
@@ -17,8 +55,18 @@ class LoginView extends Component{
                     </View>
 
                     <View style={AppStyles.login.signInContainer}>
-                        <CustomInput placeholder={"Email Address"}/>
-                        <CustomInput placeholder={"Password"}/>
+                        <CustomInput placeholder={"Email Address"}
+                                     field={'email'}
+                                     onChangeText={
+                            (field, value) => this.onStateChangeFieldHandler(field, value)
+
+                        }/>
+                        <CustomInput
+                            placeholder={"Password"}
+                            field={'password'}
+                            onChangeText={
+                            (field, value) => this.onStateChangeFieldHandler(field, value)
+                        }/>
 
                         <TouchableOpacity onPress={() => console.log("🥊")} style={AppStyles.login.forgotPass}>
                             <Text style={AppStyles.login.forgotTitle}>Forgot Password?</Text>
@@ -26,7 +74,7 @@ class LoginView extends Component{
 
                         <Button
                             title="Sign In"
-                            onPress={() => console.log("🥊")}
+                            onPress={this.checkForm}
                             color="#138cbf"
                         />
 

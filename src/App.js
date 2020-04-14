@@ -17,8 +17,8 @@ const App: () => React$Node = () => {
 
   return (
     <>
-      {/*<LoginView/>*/}
-      <RegistrationView/>
+      <LoginView/>
+      {/*<RegistrationView/>*/}
       {/*<MainView/>*/}
       {/*<ProductDetails/>*/}
     </>
