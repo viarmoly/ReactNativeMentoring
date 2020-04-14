@@ -26,20 +26,21 @@ class LoginView extends Component{
          const {email, password} = this.state.signInFields;
 
          if (email && password) {
-         fetch("http://34.73.95.65/account/login?rt=a/account/login", {
+             fetch("http://34.73.95.65/index.php?rt=a/account/login", {
              method: 'POST',
              headers: {
                  Accept: 'application/json',
                  'Content-Type': 'application/json'
              },
              body: JSON.stringify({
-                 loginname: email,
-                 password: password
+                 "loginname": email,
+                 "password": password
              })
-         })
+             })
              .then(response => response.json())
-             .then(json => console.log(json)).catch(e => console.log(e))
-     }
+             .then(json => console.log(json))
+             .catch(e => console.log(e))
+         }
     };
 
     render() {

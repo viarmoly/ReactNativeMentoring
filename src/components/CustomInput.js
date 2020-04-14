@@ -9,6 +9,8 @@ const CustomInput = (props) => {
             placeholder={placeholder}
             inputStyle={AppStyles.customInput}
             onChangeText={(val) => onChangeText(field, val)}
+            autoCorrect={false}
+            autoCapitalize={'none'}
         />
     )
 };
