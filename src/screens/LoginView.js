@@ -22,25 +22,24 @@ class LoginView extends Component{
         });
     };
 
-     checkForm = () => {
-         const {email, password} = this.state.signInFields;
-
-         if (email && password) {
-             fetch("http://34.73.95.65/index.php?rt=a/account/login", {
-             method: 'POST',
-             headers: {
-                 Accept: 'application/json',
-                 'Content-Type': 'application/json'
-             },
-             body: JSON.stringify({
-                 "loginname": email,
-                 "password": password
-             })
-             })
-             .then(response => response.json())
-             .then(json => console.log(json))
-             .catch(e => console.log(e))
-         }
+    checkForm = () => {
+        const {email, password} = this.state.signInFields;
+        if (email && password) {
+            let formData = new FormData();
+            formData.append('loginname', email);
+            formData.append('password', password);
+            fetch('http://34.73.95.65/index.php?rt=a/account/login', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                },
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(json => console.log(json))
+                .catch(e => console.log(e));
+        }
     };
 
     render() {
