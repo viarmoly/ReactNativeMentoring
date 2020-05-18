@@ -5,13 +5,27 @@ import {faSearch, faShoppingCart, faArrowLeft, faHeart} from '@fortawesome/free-
 import AppStyles from '../config/styles';
 
 class ProductDetails extends Component{
+
     render() {
+        console.log(this.props.route.params);
+        const {navigation} = this.props;
+        const {
+            itemId,
+            itemName,
+            itemPrice,
+            priceOff,
+            itemDiscount,
+            itemColor,
+            itemDescription,
+            itemUrl
+        } =this.props.route.params;
+
         return(
             <SafeAreaView style={AppStyles.flex}>
                 <ScrollView>
                     <View style={AppStyles.productDetails.header}>
                         <View style={AppStyles.productDetails.header.container}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.goBack()}>
                                 <Text >
                                     <FontAwesomeIcon icon={faArrowLeft} color='white' size={25}/>
                                 </Text>
@@ -33,16 +47,16 @@ class ProductDetails extends Component{
                             <Image
                                 style={AppStyles.productDetails.image}
                                 source={{
-                                    uri: 'https://cdn2.biggeek.ru/1/435/a9f5/10352-978%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202019-10-29%20%D0%B2%2011.21.05.png',
+                                    uri: itemUrl,
                                 }}
                             />
                         </TouchableOpacity>
 
-                        <Text style={AppStyles.productDetails.product}>AirPods Pro</Text>
+                        <Text style={AppStyles.productDetails.product}>{itemName}</Text>
                         <View style={AppStyles.flex.row}>
-                            <Text style={AppStyles.productDetails.price}>$ 222 </Text>
-                            <Text style={AppStyles.productDetails.discount}>$ 244 </Text>
-                            <Text style={AppStyles.productDetails.sale}>%9 Off</Text>
+                            <Text style={AppStyles.productDetails.price}>$ {itemPrice} </Text>
+                            <Text style={AppStyles.productDetails.discount}>$ {itemDiscount}  </Text>
+                            <Text style={AppStyles.productDetails.sale}> %{priceOff} Off</Text>
                         </View>
                     </View>
 
@@ -51,46 +65,32 @@ class ProductDetails extends Component{
                             Select color:
                         </Text>
 
-                        <TouchableOpacity style={AppStyles.productDetails.colorBtn}>
-                            <Text style={AppStyles.productDetails.colorBtn.title}>
-                                BLUE
-                            </Text>
-                        </TouchableOpacity>
+
+                            {itemColor.map((item)=>
+                                <TouchableOpacity style={AppStyles.productDetails.colorBtn}>
+                                <Text key={item} style={AppStyles.productDetails.colorBtn.title}>
+                                    {item}
+                                </Text>
+                                </TouchableOpacity>
+                            )}
+
+
                     </View>
 
                     <View style={AppStyles.productDetails.productDescription}>
                         <Text style={AppStyles.productDetails.colorTitle}>Description:</Text>
                         <Text style={AppStyles.productDetails.productDescription.text}>
-                            AirPods Pro are Apple's first in-ear earbuds that feature Active Noise Cancellation
-                            technology, but Apple has previously used ANC in its on-ear Beats headphones. Active Noise
-                            Cancellation leverages two microphones and Apple's advanced software algorithms to adapt
-                            sound to each individual's ear.
-
-                            Because of the new silicone tips, the AirPods Pro are larger than prior versions of the
-                            AirPods, necessitating a wider charging case. The new AirPods Pro case is longer in the
-                            horizontal dimension than the prior AirPods case, but still pocketable.
-
-                            AirPods Pro are water-resistant with an IPX4 rating, which means they can hold up to
-                            splashing water regardless of the direction. This suggests AirPods Pro should be safe from
-                            sweat and light rain, but they shouldn't be submerged.
-
-                            Apple says that AirPods Pro include an Adaptive EQ feature for superior sound quality.
-                            Adaptive EQ tunes the low and mid frequencies of the music to the shape of an individual's
-                            ear for a "rich, immersive listening experience."
-
-                            Like the AirPods 2 and the Beats Solo Pro, the AirPods Pro are powered by an Apple-designed
-                            H1 chip. The H1 chip powers real-time noise cancellation, the Adaptive EQ feature, and
-                            hands-free "Hey Siri" support.
+                            {itemDescription}
                         </Text>
                     </View>
 
                     <View style={AppStyles.productDetails.bottomBtns}>
                         <TouchableOpacity style={AppStyles.productDetails.wishListBtn}>
                             <FontAwesomeIcon icon={faHeart} color='lightblue' size={25}/>
-                            <Text style={AppStyles.productDetails.wishListBtn.title}>WishList</Text>
+                            <Text style={AppStyles.productDetails.wishListBtnTitle}>WishList</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={AppStyles.productDetails.addToCartBtn}>
-                            <Text style={AppStyles.productDetails.addToCartBtn}>Add To Cart</Text>
+                            <Text style={AppStyles.productDetails.addToCartBtnTitle}>Add To Cart</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

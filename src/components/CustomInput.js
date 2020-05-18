@@ -3,7 +3,7 @@ import AppStyles from '../config/styles';
 import {Input} from 'react-native-elements';
 
 const CustomInput = (props) => {
-    const { placeholder, field, onChangeText } = props;
+    const { placeholder, field, onChangeText, secure } = props;
     return(
         <Input
             placeholder={placeholder}
@@ -11,6 +11,7 @@ const CustomInput = (props) => {
             onChangeText={(val) => onChangeText(field, val)}
             autoCorrect={false}
             autoCapitalize={'none'}
+            secureTextEntry={secure}
         />
     )
 };

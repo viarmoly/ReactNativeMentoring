@@ -45,7 +45,6 @@ const login = {
     },
     signUp:{
         alignItems:'center',
-        marginBottom:60
     },
     skipContainer:{
         alignItems:'center',
@@ -68,7 +67,7 @@ const mainPage = {
     productsHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 10,
+        margin: 10,
         alignItems: 'center',
         title: {
             color: '#3799c6',
@@ -96,7 +95,7 @@ const mainPage = {
     header: {
         container: {
             backgroundColor: '#138cbf',
-            width: '100%',
+            // width: '100%',
             paddingHorizontal: 20
         },
         nav: {
@@ -252,14 +251,17 @@ const productDetails = {
         alignItems:'center'
     },
     wishListBtn: {
-        width:'50%',
-        alignItems:'center',
-        paddingVertical:15,
-        flexDirection:'row',
-        justifyContent:'center',
+        width: '50%',
+        alignItems: 'center',
+        paddingVertical: 15,
+        flexDirection: 'row',
+        justifyContent: 'center',
         title:{
             marginLeft:10
         }
+    },
+    wishListBtnTitle: {
+            marginLeft:10
     },
     addToCartBtn: {
         backgroundColor:'#138cbf',
@@ -270,6 +272,10 @@ const productDetails = {
             color:'white',
             fontWeight:'bold'
         }
+    },
+    addToCartBtnTitle: {
+        color:'white',
+        fontWeight:'bold'
     }
 };
 
@@ -289,7 +295,7 @@ const registration = {
         fontSize: 36
     },
     form:{
-        flex:1,
+        flex:2,
         marginHorizontal:20,
         alignItems:'center'
     },
@@ -300,6 +306,47 @@ const registration = {
     }
 };
 
+const line = {
+    width: '100%',
+    borderBottomColor: 'lightgray',
+    borderBottomWidth: 1
+};
+
+const drawer = {
+    menuitem: {
+        width: '100%',
+        flex:1,
+        flexDirection: 'row',
+        paddingVertical: 10,
+        title: {
+            paddingLeft: 20
+        },
+        alignItems:'center'
+    },
+    title: {
+        fontSize: 25,
+        color: '#128cbf',
+        fontWeight: 'bold'
+    },
+    logo: {
+        padding: 20,
+        borderBottomColor: '#128cbf',
+        borderBottomWidth: 1
+    },
+    account: {
+        padding: 15,
+        borderBottomColor: 'lightgray',
+        borderBottomWidth: 1
+    },
+    sectionHeader: {
+        color: 'gray',
+        marginBottom: 15
+    },
+    others: {
+        padding: 15
+    }
+}
+
 const AppStyles = {
     customInput,
     flex,
@@ -308,7 +355,10 @@ const AppStyles = {
     productCard,
     productCategory,
     productDetails,
-    registration
+    registration,
+    line,
+    // blueLine,
+    drawer
 };
 
 export default AppStyles;

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import {Button, Text, TouchableOpacity, View, SafeAreaView, ImageBackground} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import {onLogin, onLogout} from '../actions/loginActions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import CustomInput from '../components/CustomInput';
 import AppStyles from '../config/styles';
 
@@ -24,6 +28,8 @@ class LoginView extends Component{
 
     checkForm = () => {
         const {email, password} = this.state.signInFields;
+        const {actions} = this.props;
+        console.log(this.props)
         if (email && password) {
             let formData = new FormData();
             formData.append('loginname', email);
@@ -37,13 +43,39 @@ class LoginView extends Component{
                 body: formData,
             })
                 .then(response => response.json())
-                .then(json => console.log(json))
+                .then(json => {
+                    if(json.status === 1) {
+                        this.storeToken(json.token);
+                        actions.onLogin();
+                    }
+                })
                 .catch(e => console.log(e));
         }
     };
 
+    storeToken = async (token) => {
+        try {
+            await AsyncStorage.setItem('userToken', token)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    // getToken = async () => {
+    //     try {
+    //         const value = await AsyncStorage.getItem('userToken');
+    //         if(value !== null) {
+    //             onLogin()
+    //         }
+    //     } catch(e) {
+    //         console.log(e)
+    //     }
+    // }
+
+
     render() {
         const image = { uri: "https://webgradients.com/public/webgradients_png/008%20Rainy%20Ashville.png" };
+        const {navigation} = this.props;
         return(
             <>
             <SafeAreaView style={AppStyles.flex}>
@@ -55,7 +87,7 @@ class LoginView extends Component{
                     </View>
 
                     <View style={AppStyles.login.signInContainer}>
-                        <CustomInput placeholder={"Email Address"}
+                        <CustomInput placeholder={"Name"}
                                      field={'email'}
                                      onChangeText={
                             (field, value) => this.onStateChangeFieldHandler(field, value)
@@ -65,8 +97,10 @@ class LoginView extends Component{
                             placeholder={"Password"}
                             field={'password'}
                             onChangeText={
-                            (field, value) => this.onStateChangeFieldHandler(field, value)
-                        }/>
+                                (field, value) => this.onStateChangeFieldHandler(field, value)
+                            }
+                            secure={true}
+                        />
 
                         <TouchableOpacity onPress={() => console.log("🥊")} style={AppStyles.login.forgotPass}>
                             <Text style={AppStyles.login.forgotTitle}>Forgot Password?</Text>
@@ -78,11 +112,11 @@ class LoginView extends Component{
                             color="#138cbf"
                         />
 
-                        <TouchableOpacity onPress={() => console.log("🥊")} style={AppStyles.login.signUp}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Registration')} style={AppStyles.login.signUp}>
                             <Text style={AppStyles.login.signUpTitle}>New here? Sign Up</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => console.log("🥊")} style={AppStyles.login.skipContainer}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Main')} style={AppStyles.login.skipContainer}>
                             <Text style={AppStyles.login.skipLogin}>SKIP LOGIN</Text>
                         </TouchableOpacity>
 
@@ -94,4 +128,22 @@ class LoginView extends Component{
         );
     }
 }
-export default LoginView;
+// const mapStateToProps = state => ({
+//     isLoggedIn: state.isLoggedIn,
+// });
+
+const mapStateToProps = state => ({
+    isLoggedIn: state.login.isLoggedIn
+});
+const ActionCreators = Object.assign(
+    {
+        onLogin,
+        onLogout
+    },
+
+);
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginView);
