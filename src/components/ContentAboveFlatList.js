@@ -9,7 +9,7 @@ import ProductCategory from './ProductCategory';
 import CategoryHeader from './CategoryHeader';
 
 const ContentAboveFlatList = (props) => {
-    const {navigation} = props;
+    const {navigation, isConnected} = props;
     return(
         <>
             <View style={AppStyles.mainPage.header.container}>

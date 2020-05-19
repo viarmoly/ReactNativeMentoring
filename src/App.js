@@ -27,7 +27,7 @@ class App extends Component{
 
 
     render(){
-    let {isLoggedIn} = this.props;
+    const {isLoggedIn} = this.props;
     return (
         <>
             <NavigationContainer headerMode="none">

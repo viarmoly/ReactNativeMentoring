@@ -346,6 +346,59 @@ const drawer = {
         padding: 15
     }
 }
+const modal = {
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    openButton: {
+        backgroundColor: "#F194FF",
+        borderRadius: 5,
+        padding: 10,
+        elevation: 2,
+        width: '40%'
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    },
+    modalView2BTN: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+}
 
 const AppStyles = {
     customInput,
@@ -358,7 +411,8 @@ const AppStyles = {
     registration,
     line,
     // blueLine,
-    drawer
+    drawer,
+    modal
 };
 
 export default AppStyles;

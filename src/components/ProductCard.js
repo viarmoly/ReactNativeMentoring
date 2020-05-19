@@ -3,10 +3,10 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import AppStyles from '../config/styles';
 
 const ProductCard = (props) => {
-    const {productModel, price, discount, sale, uri, onNav} = props;
+    const {keyID, productModel, price, discount, sale, uri, onNav} = props;
     return(
-        <TouchableOpacity style={AppStyles.productCard.container} onPress={onNav}>
-            <View style={AppStyles.productCard.imageBox}>
+        <TouchableOpacity style={AppStyles.productCard.container} onPress={onNav} key={keyID}>
+            <View style={AppStyles.productCard.imageBox} >
                 <Image
                     style={AppStyles.productCard.imageStyle}
                     source={{uri}}
