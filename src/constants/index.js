@@ -1,2 +1,3 @@
-export const IS_LOGIN = 'IS_LOGIN';
-export const IS_LOGOUT = 'IS_LOGOUT';
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_OUT = 'SIGN_OUT';
+export const RESTORE_TOKEN = 'RESTORE_TOKEN';

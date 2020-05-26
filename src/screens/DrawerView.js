@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+import { Button } from 'react-native-elements';
+import AsyncStorage from '@react-native-community/async-storage';
 import AppStyles from '../config/styles';
 import DrawerMenuItem from '../components/DrawerMenuItem';
 import {
@@ -14,9 +16,28 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faShoppingBasket} from '@fortawesome/free-solid-svg-icons/faShoppingBasket';
+import { onSignOut } from '../actions/loginActions';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 class DrawerView extends Component{
+
+    signOut = () => {
+        const { actions } = this.props;
+        this.deleteToken();
+        actions.onSignOut();
+    }
+
+    deleteToken =  async () => {
+        try {
+            await AsyncStorage.removeItem('userToken');
+        } catch(e) {
+            console.log(e)
+        }
+    };
+
     render(){
+
         return(
             <ScrollView>
                 <View style={AppStyles.drawer.logo}>
@@ -51,11 +72,32 @@ class DrawerView extends Component{
 
                     <DrawerMenuItem item={'Share'} icon={faShare}/>
                 </View>
-            </ScrollView>
 
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 30}}>
+                    <Button
+                        title="Sign Out"
+                        buttonStyle={AppStyles.signOut.signOutButton}
+                        onPress={this.signOut}
+                        titleStyle={AppStyles.signOut.signOutButtonTitle}
+                        type="outline"
+                    />
+                </View>
+            </ScrollView>
         )
     }
-
 }
 
-export default DrawerView;
+const mapStateToProps = state => ({
+    isSignout: state.login.isSignout
+});
+
+const ActionCreators = Object.assign(
+    {
+        onSignOut
+    },
+);
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerView);

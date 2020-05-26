@@ -1,21 +1,30 @@
-import { IS_LOGIN, IS_LOGOUT } from '../constants';
+import { SIGN_IN, SIGN_OUT, RESTORE_TOKEN } from '../constants';
 
 const initialState = {
-    isLoggedIn: false,
-    count:0
+    isLoading: true,
+    isSignout: false,
+    userToken: null,
 };
 
-const loginReducer = (state =initialState, action) => {
+const loginReducer = (state = initialState, action) => {
     switch(action.type) {
-        case IS_LOGIN:
+        case SIGN_IN:
             return {
                 ...state,
-                isLoggedIn: true
+                isSignout: false,
+                userToken: action.payload,
             };
-        case IS_LOGOUT:
+        case SIGN_OUT:
             return {
                 ...state,
-                isLoggedIn: false
+                isSignout: true,
+                userToken: null,
+            };
+        case RESTORE_TOKEN:
+            return {
+                ...state,
+                userToken: action.payload,
+                isLoading: false,
             };
         default:
             return state;

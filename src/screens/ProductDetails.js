@@ -13,23 +13,25 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch, faShoppingCart, faArrowLeft, faHeart} from '@fortawesome/free-solid-svg-icons';
 import AppStyles from '../config/styles';
-import {onLogin, onLogout} from '../actions/loginActions';
+import {onSignIn, onSignOut} from '../actions/loginActions';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 class ProductDetails extends Component{
- state={
-     showModal: false
- }
+    state={
+        showModal: false
+    };
+
     setModalVisible = (visible) =>{
         this.setState({showModal: visible})
     };
 
-     onNav = (visible, scene) => {
-         const {actions} = this.props;
-         this.setState({showModal: visible});
-         actions.onLogout();
-     }
+    onNav = (visible, scene) => {
+        const {actions} = this.props;
+        this.setState({showModal: visible});
+        actions.onSignOut();
+    }
+
     render() {
         const {navigation} = this.props;
         const {
@@ -127,8 +129,6 @@ class ProductDetails extends Component{
                                 </Text>
                                 </TouchableOpacity>
                             )}
-
-
                     </View>
 
                     <View style={AppStyles.productDetails.productDescription}>
@@ -153,12 +153,12 @@ class ProductDetails extends Component{
     }
 }
 const mapStateToProps = state => ({
-    isLoggedIn: state.login.isLoggedIn
+    isSignout: state.login.isSignout
 });
 const ActionCreators = Object.assign(
     {
-        onLogin,
-        onLogout
+        onSignIn,
+        onSignOut
     },
 
 );

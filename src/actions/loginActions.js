@@ -1,13 +1,21 @@
-import { IS_LOGIN, IS_LOGOUT } from '../constants';
+import { RESTORE_TOKEN, SIGN_IN, SIGN_OUT } from '../constants';
 
-export function onLogin() {
+export function onSignIn(token) {
     return {
-        type: IS_LOGIN
+        type: SIGN_IN,
+        payload: token
     };
 }
 
-export function onLogout() {
+export function onSignOut() {
     return {
-        type: IS_LOGOUT
+        type: SIGN_OUT
+    };
+}
+
+export function restoreUserToken(token) {
+    return {
+        type: RESTORE_TOKEN,
+        payload: token
     };
 }

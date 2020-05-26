@@ -400,10 +400,22 @@ const modal = {
     },
 }
 
+const signOut = {
+    signOutButton: {
+        marginTop: 30,
+        width: 150
+    },
+    signOutButtonTitle: {
+        backgroundColor: '#FFFFFF',
+        fontSize: 15
+    }
+}
+
 const AppStyles = {
     customInput,
     flex,
     login,
+    signOut,
     mainPage,
     productCard,
     productCategory,

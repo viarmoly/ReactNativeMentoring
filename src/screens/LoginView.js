@@ -11,7 +11,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {onLogin, onLogout} from '../actions/loginActions';
+import { onSignIn, onSignOut } from '../actions/loginActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CustomInput from '../components/CustomInput';
@@ -30,42 +30,44 @@ class LoginView extends Component{
         isError: false,
         isSignInError: false,
         isLoading: false,
-        signInFields:{
+        signInFields: {
             email: '',
             password: ''
         }
     };
 
-
     onLoadingSignInError = () => {
-        const {opacity} = this.state;
-            Animated.timing(
-                opacity,
-                {
-                    toValue: 1,
-                    duration: 1000,
-                    useNativeDriver:true
-                },
-            ).start();
+        const { opacity } = this.state;
+
+        Animated.timing(
+            opacity,
+            {
+                toValue: 1,
+                duration: 1000,
+                useNativeDriver:true
+            },
+        ).start();
     };
 
     hidingOnSihnInError = () =>{
-        const {opacity} = this.state;
-            Animated.timing(
-                opacity,
-                {
-                    toValue: 0,
-                    duration: 500,
-                    useNativeDriver:true
-                }
-            ).start();
+        const { opacity } = this.state;
+
+        Animated.timing(
+            opacity,
+            {
+                toValue: 0,
+                duration: 500,
+                useNativeDriver:true
+            },
+        ).start();
     };
 
     componentDidUpdate() {
-        const {isSignInError} = this.state;
-        const {email, password} = this.state.signInFields;
+        const { isSignInError } = this.state;
+        const { email, password } = this.state.signInFields;
         const fieldsComplited = email && password;
-        if(isSignInError && fieldsComplited){
+
+        if (isSignInError && fieldsComplited){
             this.hidingOnSihnInError();
             this.setState({
                 isSignInError: false
@@ -88,15 +90,14 @@ class LoginView extends Component{
                 duration: 200,
                 property: LayoutAnimation.Properties.opacity,
                 type: LayoutAnimation.Types.linear,
-            }})
+            }
+        })
     };
-
-
-
 
     onStateChangeFieldHandler = (field, value) => {
         const { signInFields } = this.state;
         const { state } = this;
+
         signInFields[field] = value;
         this.setState({
             ...state,
@@ -105,17 +106,20 @@ class LoginView extends Component{
     };
 
     checkForm = () => {
-        const {email, password} = this.state.signInFields;
-        const {actions} = this.props;
+        const { email, password } = this.state.signInFields;
+        const { actions } = this.props;
         if (email && password) {
             this.setState({
                 isLoading:true,
                 isError: false,
             });
+
             this.animationMethod();
+
             let formData = new FormData();
             formData.append('loginname', email);
             formData.append('password', password);
+
             setTimeout(()=> {
                 fetch('http://34.73.95.65/index.php?rt=a/account/login', {
                     method: 'POST',
@@ -132,7 +136,7 @@ class LoginView extends Component{
                             this.setState({
                                 isLoading: false
                             });
-                            actions.onLogin();
+                            actions.onSignIn(json.token);
                         } else {
                             this.animationMethod();
                             this.setState({
@@ -143,7 +147,7 @@ class LoginView extends Component{
                     })
                     .catch(e => console.log(e));
             }, 1000)
-        } else if(!email || !password){
+        } else if (!email || !password) {
             this.onLoadingSignInError();
             this.setState({
                 isSignInError: true
@@ -160,23 +164,14 @@ class LoginView extends Component{
         }
     }
 
-    // getToken = async () => {
-    //     try {
-    //         const value = await AsyncStorage.getItem('userToken');
-    //         if(value !== null) {
-    //             onLogin()
-    //         }
-    //     } catch(e) {
-    //         console.log(e)
-    //     }
-    // }
+
 
 
     render() {
-
         const image = { uri: "https://webgradients.com/public/webgradients_png/008%20Rainy%20Ashville.png" };
         const {navigation} = this.props;
         const {isLoading, isError, opacity} = this.state;
+
         return(
             <>
             <SafeAreaView style={AppStyles.flex}>
@@ -248,18 +243,18 @@ class LoginView extends Component{
     }
 }
 // const mapStateToProps = state => ({
-//     isLoggedIn: state.isLoggedIn,
+//     isSignout: state.isSignout,
 // });
 
 const mapStateToProps = state => ({
-    isLoggedIn: state.login.isLoggedIn
+    isSignout: state.login.isSignout
 });
+
 const ActionCreators = Object.assign(
     {
-        onLogin,
-        onLogout
+        onSignIn,
+        onSignOut
     },
-
 );
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(ActionCreators, dispatch),
