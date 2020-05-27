@@ -9,6 +9,7 @@ import {
     Alert,
     TouchableHighlight,
     Modal,
+    Vibration
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch, faShoppingCart, faArrowLeft, faHeart} from '@fortawesome/free-solid-svg-icons';
@@ -16,10 +17,32 @@ import AppStyles from '../config/styles';
 import {onSignIn, onSignOut} from '../actions/loginActions';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class ProductDetails extends Component{
-    state={
+    state = {
         showModal: false
+    };
+    componentDidUpdate(prevProps, prevState) {
+        const { showModal } = this.state;
+        const { showModal: showModalPrev } = prevState;
+
+        const vibrate = showModalPrev === false && showModal === true;
+
+        if (vibrate) {
+           this.vibrateOnAlert();
+        }
+    }
+
+    vibrateOnAlert = () => {
+        const ONE_SECOND_IN_MS = 1000;
+
+        const PATTERN = [
+            1 * ONE_SECOND_IN_MS,
+            2 * ONE_SECOND_IN_MS,
+            3 * ONE_SECOND_IN_MS
+        ];
+        Vibration.vibrate(PATTERN)
     };
 
     setModalVisible = (visible) =>{
@@ -28,12 +51,22 @@ class ProductDetails extends Component{
 
     onNav = (visible, scene) => {
         const {actions} = this.props;
+
         this.setState({showModal: visible});
+        this.deleteToken();
         actions.onSignOut();
-    }
+    };
+
+    deleteToken =  async () => {
+        try {
+            await AsyncStorage.removeItem('userToken');
+        } catch(e) {
+            console.log(e)
+        }
+    };
 
     render() {
-        const {navigation} = this.props;
+        const { navigation } = this.props;
         const {
             itemId,
             itemName,

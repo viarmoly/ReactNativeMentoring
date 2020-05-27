@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {View, SafeAreaView, FlatList, Alert, Text,  StyleSheet,Modal, TouchableHighlight
+import {
+    View, SafeAreaView, FlatList, Alert, Text, StyleSheet, Modal, TouchableHighlight, Vibration,
 } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -33,19 +34,42 @@ class MainView extends Component{
         });
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const { isErrorMessageShow } = this.state;
+        const { isErrorMessageShow: isErrorMessageShowPrev } = prevState;
+
+        const vibrate = isErrorMessageShowPrev === false && isErrorMessageShow === true;
+
+        if (vibrate) {
+            this.vibrateOnAlert();
+        }
+    }
+
+    vibrateOnAlert = () => {
+        const ONE_SECOND_IN_MS = 1000;
+
+        const PATTERN = [
+            1 * ONE_SECOND_IN_MS,
+            2 * ONE_SECOND_IN_MS,
+            3 * ONE_SECOND_IN_MS
+        ];
+        Vibration.vibrate(PATTERN)
+    };
+
     navigateToProduct = (itemId, itemName, itemPrice, priceOff, itemDiscount, itemColor, itemDescription, itemUrl) => {
         const {navigation} = this.props;
         navigation.navigate('Product', {
             itemId, itemName, itemPrice, priceOff, itemDiscount, itemColor, itemDescription, itemUrl
         })
-    }
+    };
+
     setModalVisible = () =>{
-        this.setState({isErrorMessageShow: false})
-    }
+        this.setState({ isErrorMessageShow: false })
+    };
 
     render() {
-        const {productList, isConnected, isErrorMessageShow} = this.state;
-        const {navigation} = this.props;
+        const { productList, isConnected, isErrorMessageShow } = this.state;
+        const { navigation } = this.props;
         return (
             <SafeAreaView >
                 <View>
