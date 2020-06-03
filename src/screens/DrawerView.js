@@ -8,7 +8,7 @@ import {
     faChartLine,
     faEnvelope,
     faHeart, faMailBulk,
-    faMale,
+    faMale, faMap,
     faPersonBooth, faPhone, faPhoneAlt,
     faPortrait, faShare,
     faShoppingBag,
@@ -63,6 +63,7 @@ class DrawerView extends Component{
 
                     <DrawerMenuItem item={'Email'} icon={faEnvelope}/>
                     <DrawerMenuItem item={'Call'} icon={faPhoneAlt}/>
+                    <DrawerMenuItem item={'Contacts'} icon={faMap} scene={'Contacts'} navigation={this.props.navigation}/>
                 </View>
 
                 <View style={AppStyles.drawer.others} >

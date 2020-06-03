@@ -23,6 +23,7 @@ import SplashScreen from './components/SplashScreen';
 import AsyncStorage from '@react-native-community/async-storage';
 import { restoreUserToken } from './actions/loginActions';
 import { bindActionCreators } from 'redux';
+import Contacts from './screens/Contacts';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -65,6 +66,7 @@ class App extends Component{
                         <>
                             <Drawer.Navigator initialRouteName={MainView} drawerContent={(props) => <DrawerView {...props} />}>
                                 <Drawer.Screen name="main" component={MainView} options={{ headerShown: false }}/>
+                                <Drawer.Screen name="Contacts" component={Contacts} options={{ headerShown: false }}/>
                                 <Drawer.Screen name="Product" component={ProductDetails}  options={{ headerShown: false }}/>
                             </Drawer.Navigator>
                         </>
