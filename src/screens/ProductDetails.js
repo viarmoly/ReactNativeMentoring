@@ -9,7 +9,8 @@ import {
     Alert,
     TouchableHighlight,
     Modal,
-    Vibration
+    Vibration,
+    NativeModules
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch, faShoppingCart, faArrowLeft, faHeart} from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +19,8 @@ import {onSignIn, onSignOut} from '../actions/loginActions';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
+
+const {ToastModule} = NativeModules;
 
 class ProductDetails extends Component{
     state = {
@@ -33,6 +36,10 @@ class ProductDetails extends Component{
            this.vibrateOnAlert();
         }
     }
+
+    toastMess = () => {
+        ToastModule.showToast('Product is added');
+    };
 
     vibrateOnAlert = () => {
         const ONE_SECOND_IN_MS = 1000;
@@ -172,11 +179,11 @@ class ProductDetails extends Component{
                     </View>
 
                     <View style={AppStyles.productDetails.bottomBtns}>
-                        <TouchableOpacity style={AppStyles.productDetails.wishListBtn}>
+                        <TouchableOpacity style={AppStyles.productDetails.wishListBtn} onPress={() => this.setModalVisible(!showModal)}>
                             <FontAwesomeIcon icon={faHeart} color='lightblue' size={25}/>
                             <Text style={AppStyles.productDetails.wishListBtnTitle}>WishList</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={AppStyles.productDetails.addToCartBtn} onPress={() => this.setModalVisible(!showModal)}>
+                        <TouchableOpacity style={AppStyles.productDetails.addToCartBtn} onPress={() => this.toastMess()}>
                             <Text style={AppStyles.productDetails.addToCartBtnTitle}>Add To Cart</Text>
                         </TouchableOpacity>
                     </View>
