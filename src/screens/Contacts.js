@@ -2,17 +2,21 @@ import React, {Component} from 'react';
 import MapView from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
-
 class Contacts extends Component{
     state ={
         latitude: 50.4501,
         longitude: 30.5234
-    }
+    };
     componentDidMount() {
-        Geolocation.getCurrentPosition(info => this.setState({
-            latitude:info.coords.latitude,
-            longitude:info.coords.longitude
-        }));
+        Geolocation.getCurrentPosition((position) => {
+            console.log(position);
+            this.setState({
+                latitude:position.coords.latitude,
+                longitude:position.coords.longitude
+            })
+        }, (err) => {
+            console.log(err);
+        }, { enableHighAccuracy: true, timeout: 2000, maximumAge: 3600000 });
 
     }
 

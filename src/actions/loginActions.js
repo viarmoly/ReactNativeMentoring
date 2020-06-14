@@ -1,4 +1,4 @@
-import { RESTORE_TOKEN, SIGN_IN, SIGN_OUT } from '../constants';
+import { RESTORE_TOKEN, SIGN_IN, SIGN_OUT} from '../constants';
 
 export function onSignIn(token) {
     return {

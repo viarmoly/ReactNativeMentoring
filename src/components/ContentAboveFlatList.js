@@ -22,7 +22,7 @@ const ContentAboveFlatList = (props) => {
 
                     <Text style={AppStyles.mainPage.header.logo}>Ecommerce Store</Text>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
                         <FontAwesomeIcon icon={faShoppingCart} color='white' size={25}/>
                     </TouchableOpacity>
                 </View>

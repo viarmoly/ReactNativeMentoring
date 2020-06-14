@@ -35,6 +35,8 @@ target 'Bucephalus3000' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
 
+  pod 'RollbarReactNative', :path => '../node_modules/rollbar-react-native'
+
   target 'Bucephalus3000Tests' do
     inherit! :search_paths
     # Pods for testing

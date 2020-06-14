@@ -19,25 +19,84 @@ import {onSignIn, onSignOut} from '../actions/loginActions';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-
-const {ToastModule} = NativeModules;
+import {addProduct, updateCart, updateProducts} from '../actions/cartActions';
+import PushNotification from 'react-native-push-notification'
+const {ToastModule, Notification} = NativeModules;
 
 class ProductDetails extends Component{
     state = {
         showModal: false
     };
+
+    componentDidMount(){
+        //
+        // const self = this;
+        // Notification.initModule();
+        PushNotification.configure({
+                                       // (required) Called when a remote or local notification is opened or received
+                                       onNotification: function(notification) {
+                                       console.log('LOCAL NOTIFICATION ==>', notification)
+                                   },
+                                   popInitialNotification: true,
+                                   requestPermissions: Platform.OS === 'ios'
+    })
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        const { cartList: cartListNext} = nextProps;
+        const { cartList } = this.props;
+        const { itemName } =this.props.route.params;
+         if(cartListNext !== cartList){
+             this.localNotification(itemName, cartListNext.cart.price, cartListNext.cart.qty)
+             return false;
+         }
+        return false;
+    }
+
     componentDidUpdate(prevProps, prevState) {
         const { showModal } = this.state;
         const { showModal: showModalPrev } = prevState;
-
         const vibrate = showModalPrev === false && showModal === true;
-
         if (vibrate) {
            this.vibrateOnAlert();
         }
     }
 
+    localNotification = (title, price, qty ) => {
+        PushNotification.localNotification({
+            autoCancel: true,
+            bigText:`Total price: ${price}
+            Qty: ${qty}
+            `,
+            subText: 'Local Notification Demo',
+            title: `${title}`,
+            message: 'Expand me to see more',
+            // largeIcon: "http://pngimg.com/uploads/beaver/beaver_PNG62.png",
+            vibrate: true,
+            vibration: 300,
+            playSound: true,
+            soundName: 'default',
+            actions: '["Yes", "No"]'
+        })
+    };
+
     toastMess = () => {
+        const {actions, cartList} = this.props;
+        const {
+            itemId,
+            itemName,
+            itemPrice,
+            itemUrl
+        } =this.props.route.params;
+        let cost = parseInt(itemPrice);
+
+        if(cartList[itemId]){
+            cost = cartList[itemId].price + cost;
+            actions.updateProducts(itemId, itemName, cost);
+        } else {
+            actions.addProduct(itemId, itemName, cost, itemUrl);
+        }
+        actions.updateCart(parseInt(itemPrice))
         ToastModule.showToast('Product is added');
     };
 
@@ -55,6 +114,11 @@ class ProductDetails extends Component{
     setModalVisible = (visible) =>{
         this.setState({showModal: visible})
     };
+
+
+    // function jkhkhjkhkdfs() {
+    //     return
+    // }
 
     onNav = (visible, scene) => {
         const {actions} = this.props;
@@ -193,12 +257,15 @@ class ProductDetails extends Component{
     }
 }
 const mapStateToProps = state => ({
-    isSignout: state.login.isSignout
+    cartList: state.cartReducer
 });
 const ActionCreators = Object.assign(
     {
         onSignIn,
-        onSignOut
+        onSignOut,
+        addProduct,
+        updateProducts,
+        updateCart
     },
 
 );

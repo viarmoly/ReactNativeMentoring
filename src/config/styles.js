@@ -398,7 +398,7 @@ const modal = {
         shadowRadius: 3.84,
         elevation: 5
     },
-}
+};
 
 const signOut = {
     signOutButton: {
@@ -409,7 +409,51 @@ const signOut = {
         backgroundColor: '#FFFFFF',
         fontSize: 15
     }
-}
+};
+
+const cartProduct = {
+    container: {
+        borderWidth:1,
+        borderColor:'lightgray',
+        borderRadius:5, padding:10,
+        width:'100%',
+        marginVertical:5
+    },
+    imageBox:{
+        flex:1,
+        alignItems:'center'
+    },
+    imageStyle:{
+        width: 70,
+        height: 70,
+    },
+    productTitle:{
+        paddingBottom:5
+    },
+    price:{
+        fontWeight:'bold'
+    },
+    discount:{
+
+    },
+    sale:{
+        color:'#138cbf',
+        fontWeight:'bold'
+    },
+    productColor: {
+        marginVertical:5
+    },
+    check: {
+        borderWidth:1,
+        borderColor:'lightgray',
+        borderRadius:5,
+        padding:10,
+        width:'100%',
+        marginVertical:20,
+        marginHorizontal:10
+    }
+
+};
 
 const AppStyles = {
     customInput,
@@ -424,7 +468,8 @@ const AppStyles = {
     line,
     // blueLine,
     drawer,
-    modal
+    modal,
+    cartProduct
 };
 
 export default AppStyles;

@@ -8,6 +8,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-sdk
+            android:minSdkVersion="16"
+            android:maxSdkVersion="19"/>
 
     <application
       android:name=".MainApplication"
@@ -30,6 +35,28 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDTLm53QevbauX_Gj_2Nbnq5IP8cG5TxpA"/>
+        <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_name"
+                    android:value="YOUR NOTIFICATION CHANNEL NAME"/>
+        <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_description"
+                    android:value="YOUR NOTIFICATION CHANNEL DESCRIPTION"/>
+
+        <!-- Change the value to true to enable pop-up for in foreground (remote-only, for local use ignoreInForeground) -->
+        <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
+                    android:value="false"/>
+        <!-- Change the resource name to your App's accent color - or any other color you want -->
+        <meta-data  android:name="com.dieam.reactnativepushnotification.notification_color"
+                    android:resource="@color/white"/> <!-- or @android:color/{name} to use a standard color -->
+        <meta-data   android:name="com.google.firebase.messaging.default_notification_icon"
+                     android:resource="@mipmap/ic_notification"/>
+        <meta-data android:name="com.rollbar.android.CODE_VERSION" android:value="1.0.0" />
+
+        <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
+        <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

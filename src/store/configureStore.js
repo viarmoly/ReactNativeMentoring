@@ -1,8 +1,12 @@
 import { createStore, combineReducers } from 'redux';
 import loginReducer from '../reducers/loginReducer';
+import cartReducer from '../reducers/cartReducer';
 
 const rootReducer = combineReducers(
-    { login: loginReducer }
+    {
+        cartReducer: cartReducer,
+        login: loginReducer
+    }
 );
 
 const configureStore = () => {
